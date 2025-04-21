@@ -1,4 +1,6 @@
 import React, { useState, useRef} from 'react'
+import { TiLocationArrow } from 'react-icons/ti';
+import Button from './Button';
 
 const Hero = () => {
 
@@ -81,13 +83,17 @@ const Hero = () => {
             
           </p>
 
-          <Button />
+          <Button id = "watch-trailer" title =" watch Trailer"  leftIcon = {< TiLocationArrow/>} 
+          containerClass = "!bg-yellow-300 flex-center gap-1"/>
         </div>
       </div>
 
       </div>
 
-      
+      <h1 className='special-font hero-heading absolute bottom-5 right-5  text-black'>
+        G<b>a</b>ming
+
+      </h1>
 
 
     </div>
