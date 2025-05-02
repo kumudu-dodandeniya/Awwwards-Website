@@ -4,6 +4,7 @@ import gsap from 'gsap'
 const AnimatedTitle = ({title, containerClass}) => {
     const containerRef = useRef(null);
 
+    /* animation for tiile*/ 
     useEffect(() => {
         const ctx = gsap.context(() => {
             const titleAnimation = gsap.timeline({
@@ -23,28 +24,13 @@ const AnimatedTitle = ({title, containerClass}) => {
             })
 
 
-            gsap.fromTo('.animated-word',
-                { opacity: 0, y: 50, rotateX: 90 },
-                {
-                  opacity: 1,
-                  y: 0,
-                  rotateX: 0,
-                  ease: 'power2.inOut',
-                  stagger: 0.02
-                }
-              )
+            
                   
 
         }, containerRef)
 
         return () => ctx.revert();
     }, []);
-
-
-
-   
-
-
 
 
   return (

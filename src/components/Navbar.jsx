@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from './Button';
 import { TiLocationArrow } from 'react-icons/ti';
+import { useWindowScroll } from 'react-use';
 
 const navItems = ['Nexus' , 'Vault' , 'Prologue' , 'About', 'Contact']
+
+const [lastScrollY, setLastScrollY]= useState (0)
+const [isNavVisible, setIsNavVisible] = useState (true)
+
+
 
 const Navbar = () => {
 const [isAudioPlaying, setIsAudioPlaying] = useState (false);
@@ -11,6 +17,13 @@ const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const navContainerRef = useRef(null);
   const audioElementRef = useRef(null);
 
+  const { y: currentScrollY } = useWindowScroll();
+  
+  useEffect(() => {
+
+  } , [currentScrollY])
+
+  
   const toggleAudioIndicator = () => {
     setIsAudioPlaying ((prev) => !prev);
     setIsIndicatorActive ((prev) => !prev);
@@ -48,10 +61,12 @@ const [isIndicatorActive, setIsIndicatorActive] = useState(false);
               ))}
 
             </div>
-
+{/* audio in navbar*/ }
             <button
             className='ml-10 flex items-center space-x-0.5' onClick={toggleAudioIndicator}>
               <audio ref={audioElementRef} className='hidden' src='/audio/loop.mp3' loop />
+              
+
               {[1, 2, 3, 4].map ((bar) => (
                 <div key={bar} className= {`idicator-line ${isIndicatorActive ? 'active':''}`} style={{animationDelay: `${bar * 0.1}s`}} />
               ))}
