@@ -2,17 +2,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import Button from './Button';
 import { TiLocationArrow } from 'react-icons/ti';
 import { useWindowScroll } from 'react-use';
+import gsap from 'gsap';
+
+import { ScrollTrigger } from 'gsap/all'
+gsap.registerPlugin (ScrollTrigger)
+
 
 const navItems = ['Nexus' , 'Vault' , 'Prologue' , 'About', 'Contact']
 
-const [lastScrollY, setLastScrollY]= useState (0)
-const [isNavVisible, setIsNavVisible] = useState (true)
+
 
 
 
 const Navbar = () => {
-const [isAudioPlaying, setIsAudioPlaying] = useState (false);
-const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState (false);
+  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+
+  const [lastScrollY, setLastScrollY] = useState (0)
+  const [isNavVisible, setIsNavVisible] = useState (true)
 
   const navContainerRef = useRef(null);
   const audioElementRef = useRef(null);
@@ -21,8 +28,32 @@ const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   
   useEffect(() => {
 
-  } , [currentScrollY])
+    if(currentScrollY === 0) {
+      setIsNavVisible(true);
+      //navContainerRef.current.classList.remove('bg-black', 'rounded-lg', 'border');
+      navContainerRef.current.classList.add('bg-black', 'rounded-lg', 'border');
 
+    }else if (currentScrollY > lastScrollY){
+      setIsNavVisible(false);
+      navContainerRef.current.classList.add('bg-black', 'rounded-lg', 'border');
+    }else if(currentScrollY < lastScrollY){
+      setIsNavVisible(true);
+      navContainerRef.current.classList.add('bg-black', 'rounded-lg', 'border')
+    }
+
+    setLastScrollY(currentScrollY);
+
+  } , [currentScrollY, lastScrollY])
+
+  useEffect(() => {
+    gsap.to(navContainerRef.current, {
+      y: isNavVisible ? 0 : -100,
+      opacity: isNavVisible ? 1 : 0,
+      duration: 0.2,
+    })
+  }, [isNavVisible])
+
+ 
   
   const toggleAudioIndicator = () => {
     setIsAudioPlaying ((prev) => !prev);
@@ -39,7 +70,7 @@ const [isIndicatorActive, setIsIndicatorActive] = useState(false);
 
   return (
     <div ref={navContainerRef} className='fixed inset-x-0 top-1 z-50 border-none transition-all duration-700 sm:inset-x-6'>
-      <header className='absolute top-1/2 w-full translate-y-1/2'>
+      <header className=' w-full '>
         <nav className='flex size-full items-center justify-between p-4'>
           <div className='flex items-center gap-7'>
             <img src="/img/logo.png" alt="logo" className='w-10' />
